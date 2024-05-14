@@ -89,20 +89,13 @@ class Arguments(object):
                           dest='kill_conflicting_processes',
                           help=Color.s('Kill processes that conflict with Airmon/Airodump (default: {G}off{W})'))
 
-        glob.add_argument('-first',
-                          '--first',
-                          action='store',
-                          dest='attack_max',
-                          metavar='[attack_max]',
-                          type=int,
-                          help=Color.s('Attacks the first {C}attack_max{W} targets'))
 
         glob.add_argument('-b',
                           action='store',
                           dest='target_bssid',
                           metavar='[bssid]',
                           type=str,
-                          help=self._verbose('BSSID (e.g. {GR}AA:BB:CC:DD:EE:FF{W}) of access point to attack'))
+                          help=self._verbose('BSSID (e.g. {GR}AA:BB:CC:DD:EE:FF{W}) of access point to scan'))
         glob.add_argument('--bssid', help=argparse.SUPPRESS, action='store', dest='target_bssid', type=str)
 
         glob.add_argument('-e',
@@ -110,7 +103,7 @@ class Arguments(object):
                           dest='target_essid',
                           metavar='[essid]',
                           type=str,
-                          help=self._verbose('ESSID (e.g. {GR}NETGEAR07{W}) of access point to attack'))
+                          help=self._verbose('ESSID (e.g. {GR}NETGEAR07{W}) of access point to scan'))
         glob.add_argument('--essid', help=argparse.SUPPRESS, action='store', dest='target_essid', type=str)
 
         glob.add_argument('-E',
