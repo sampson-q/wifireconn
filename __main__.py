@@ -61,9 +61,9 @@ class Wifireconn(object):
     def print_banner():
         """Displays ASCII art of the highest caliber."""
         Color.pl(r' {G}  .     {GR}{D}     {W}{G}     .    {W}')
-        Color.pl(r' {G}.´  ·  .{GR}{D}     {W}{G}.  ·  `.  {G}wifireconn2 {D}%s{W}' % Configuration.version)
-        Color.pl(r' {G}:  :  : {GR}{D} (¯) {W}{G} :  :  :  {W}{D}a wireless auditor by derv82{W}')
-        Color.pl(r' {G}`.  ·  `{GR}{D} /¯\ {W}{G}´  ·  .´  {W}{D}maintained by kimocoder{W}')
+        Color.pl(r' {G}.´  ·  .{GR}{D}     {W}{G}.  ·  `.  {G}wifireconn {D}%s{W}' % Configuration.version)
+        Color.pl(r' {G}:  :  : {GR}{D} (¯) {W}{G} :  :  :  {W}{D}#Author: Sampson Quarmy{W}')
+        Color.pl(r' {G}`.  ·  `{GR}{D} /¯\ {W}{G}´  ·  .´  {W}{D}{W}')
         Color.pl(r' {G}  `     {GR}{D}/¯¯¯\{W}{G}     ´    {C}{D}https://github.com/sampson-q/wifireconn{W}')
         Color.pl('')
 
