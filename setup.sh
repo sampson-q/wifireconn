@@ -1,8 +1,17 @@
 #!/bin/bash
 #Author: SAMPSON QUARMY, SOKPOLI (Hash 👽)
 
-# Add the current directory to the PATH environment variable
-export PATH=$PATH:$(pwd)
+current_dir=$(pwd)
 
-# Make the main script executable
-chmod +x __main__.py
+# Create wifireconn file in the /usr/bin directory
+sudo touch /usr/bin/wifireconn
+sudo echo "#!/usr/bin/python3
+
+from $current_dir import __main__
+__main__.entry_point()" > /usr/bin/wifireconn
+
+# Make wifireconn file executable
+sudo chmod +x /usr/bin/wifireconn
+
+# Change wifireconn ownership to the current user
+sudo chown $USER /usr/bin/wifireconn
