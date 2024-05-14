@@ -78,47 +78,16 @@ class Arguments(object):
                           dest='five_ghz',
                           help=self._verbose('Include 5Ghz channels (default: {G}off{W})'))
 
-        glob.add_argument('-inf',
-                          '--infinite',
-                          action='store_true',
-                          dest='infinite_mode',
-                          help=Color.s(
-                              'Enable infinite attack mode. Modify scanning time with {C}-p{W} (default: {G}off{W})'))
-
         glob.add_argument('-mac',
                           '--random-mac',
                           action='store_true',
                           dest='random_mac',
                           help=Color.s('Randomize wireless card MAC address (default: {G}off{W})'))
 
-        glob.add_argument('-p',
-                          action='store',
-                          dest='scan_time',
-                          nargs='?',
-                          const=10,
-                          metavar='scan_time',
-                          type=int,
-                          help=Color.s('{G}Pillage{W}: Attack all targets after {C}scan_time{W} (seconds)'))
-        glob.add_argument('--pillage', help=argparse.SUPPRESS, action='store',
-                          dest='scan_time', nargs='?', const=10, type=int)
-
         glob.add_argument('--kill',
                           action='store_true',
                           dest='kill_conflicting_processes',
                           help=Color.s('Kill processes that conflict with Airmon/Airodump (default: {G}off{W})'))
-
-        glob.add_argument('-pow',
-                          '--power',
-                          action='store',
-                          dest='min_power',
-                          metavar='[min_power]',
-                          type=int,
-                          help=Color.s('Attacks any targets with at least {C}min_power{W} signal strength'))
-
-        glob.add_argument('--skip-crack',
-                          action='store_true',
-                          dest='skip_crack',
-                          help=Color.s('Skip cracking captured handshakes/pmkid (default: {G}off{W})'))
 
         glob.add_argument('-first',
                           '--first',
@@ -154,12 +123,6 @@ class Arguments(object):
                               'Hides targets with ESSIDs that match the given text. Can be used more than once.'))
         glob.add_argument('--ignore-essid', help=argparse.SUPPRESS, action='append', dest='ignore_essids', type=str)
 
-        glob.add_argument('-ic',
-                          '--ignore-cracked',
-                          action='store_true',
-                          dest='ignore_cracked',
-                          help=Color.s('Hides previously-cracked targets. (default: {G}off{W})'))
-
         glob.add_argument('--clients-only',
                           action='store_true',
                           dest='clients_only',
@@ -175,36 +138,10 @@ class Arguments(object):
                           dest='show_manufacturers',
                           help=self._verbose('Show manufacturers of targets while scanning'))
 
-        glob.add_argument('--nodeauths',
-                          action='store_true',
-                          dest='no_deauth',
-                          help=Color.s('Passive mode: Never deauthenticates clients (default: {G}deauth targets{W})'))
-        glob.add_argument('--no-deauths', action='store_true', dest='no_deauth', help=argparse.SUPPRESS)
-        glob.add_argument('-nd', action='store_true', dest='no_deauth', help=argparse.SUPPRESS)
-
-        glob.add_argument('--num-deauths',
-                          action='store',
-                          type=int,
-                          dest='num_deauths',
-                          metavar='[num]',
-                          default=None,
-                          help=self._verbose(
-                              'Number of deauth packets to send (default: {G}%d{W})' % self.config.num_deauths))
-
         glob.add_argument('--daemon',
                           action='store_true',
                           dest='daemon',
                           help=Color.s('Puts device back in managed mode after quitting (default: {G}off{W})'))
-
-    def _add_eviltwin_args(self, group):
-        """
-        group.add_argument('--eviltwin',
-            action='store_true',
-            dest='use_eviltwin',
-            help=Color.s('Use the "Evil Twin" attack against all targets ' +
-                '(default: {G}off{W})'))
-        # TODO: Args to specify deauth interface, server port, etc.
-        """
 
     def _add_wep_args(self, wep):
         # WEP
@@ -213,19 +150,6 @@ class Arguments(object):
                          dest='wep_filter',
                          help=Color.s('Show only {C}WEP-encrypted networks{W}'))
         wep.add_argument('-wep', help=argparse.SUPPRESS, action='store_true', dest='wep_filter')
-
-        wep.add_argument('--require-fakeauth',
-                         action='store_true',
-                         dest='require_fakeauth',
-                         help=Color.s('Fails attacks if {C}fake-auth{W} fails (default: {G}off{W})'))
-        wep.add_argument('--nofakeauth', help=argparse.SUPPRESS, action='store_true', dest='require_fakeauth')
-        wep.add_argument('-nofakeauth', help=argparse.SUPPRESS, action='store_true', dest='require_fakeauth')
-
-        wep.add_argument('--keep-ivs',
-                         action='store_true',
-                         dest='wep_keep_ivs',
-                         default=False,
-                         help=Color.s('Retain .IVS files and reuse when cracking (default: {G}off{W})'))
 
         wep.add_argument('--pps',
                          action='store',
@@ -272,42 +196,6 @@ class Arguments(object):
                                             % self.config.wep_restart_aircrack))
         wep.add_argument('-weprc', help=argparse.SUPPRESS, action='store', dest='wep_restart_aircrack', type=int)
 
-        wep.add_argument('--arpreplay',
-                         action='store_true',
-                         dest='wep_attack_replay',
-                         help=self._verbose('Use {C}ARP-replay{W} WEP attack (default: {G}on{W})'))
-        wep.add_argument('-arpreplay', help=argparse.SUPPRESS, action='store_true', dest='wep_attack_replay')
-
-        wep.add_argument('--fragment',
-                         action='store_true',
-                         dest='wep_attack_fragment',
-                         help=self._verbose('Use {C}fragmentation{W} WEP attack (default: {G}on{W})'))
-        wep.add_argument('-fragment', help=argparse.SUPPRESS, action='store_true', dest='wep_attack_fragment')
-
-        wep.add_argument('--chopchop',
-                         action='store_true',
-                         dest='wep_attack_chopchop',
-                         help=self._verbose('Use {C}chop-chop{W} WEP attack (default: {G}on{W})'))
-        wep.add_argument('-chopchop', help=argparse.SUPPRESS, action='store_true', dest='wep_attack_chopchop')
-
-        wep.add_argument('--caffelatte',
-                         action='store_true',
-                         dest='wep_attack_caffe',
-                         help=self._verbose('Use {C}caffe-latte{W} WEP attack (default: {G}on{W})'))
-        wep.add_argument('-caffelatte', help=argparse.SUPPRESS, action='store_true', dest='wep_attack_caffelatte')
-
-        wep.add_argument('--p0841',
-                         action='store_true',
-                         dest='wep_attack_p0841',
-                         help=self._verbose('Use {C}p0841{W} WEP attack (default: {G}on{W})'))
-        wep.add_argument('-p0841', help=argparse.SUPPRESS, action='store_true', dest='wep_attack_p0841')
-
-        wep.add_argument('--hirte',
-                         action='store_true',
-                         dest='wep_attack_hirte',
-                         help=self._verbose('Use {C}hirte{W} WEP attack (default: {G}on{W})'))
-        wep.add_argument('-hirte', help=argparse.SUPPRESS, action='store_true', dest='wep_attack_hirte')
-
     def _add_wpa_args(self, wpa):
         wpa.add_argument('--wpa',
                          action='store_true',
@@ -347,15 +235,6 @@ class Arguments(object):
                                             % self.config.wpa_deauth_timeout))
         wpa.add_argument('-wpadt', help=argparse.SUPPRESS, action='store', dest='wpa_deauth_timeout', type=int)
 
-        wpa.add_argument('--wpat',
-                         action='store',
-                         dest='wpa_attack_timeout',
-                         metavar='[seconds]',
-                         type=int,
-                         help=self._verbose('Time to wait before failing WPA attack (default: {G}%d sec{W})'
-                                            % self.config.wpa_attack_timeout))
-        wpa.add_argument('-wpat', help=argparse.SUPPRESS, action='store', dest='wpa_attack_timeout', type=int)
-
         # TODO: Uncomment the --strip option once it works
         '''
         wpa.add_argument('--strip',
@@ -373,55 +252,12 @@ class Arguments(object):
                          help=Color.s('Show only {C}WPS-enabled networks{W}'))
         wps.add_argument('-wps', help=argparse.SUPPRESS, action='store_true', dest='wps_filter')
 
-        wps.add_argument('--no-wps',
-                         action='store_true',
-                         dest='no_wps',
-                         help=self._verbose('{O}Never{W} use {O}WPS PIN{W} & {O}Pixie-Dust{W} '
-                                            'attacks on targets (default: {G}off{W})'))
-
-        wps.add_argument('--wps-only',
-                         action='store_true',
-                         dest='wps_only',
-                         help=Color.s('{O}Only{W} use {C}WPS PIN{W} & {C}Pixie-Dust{W} attacks (default: {G}off{W})'))
-
-        wps.add_argument('--pixie', action='store_true', dest='wps_pixie',
-                         help=self._verbose('{O}Only{W} use {C}WPS Pixie-Dust{W} attack (do not use {O}PIN attack{W})'))
-
-        wps.add_argument('--no-pixie', action='store_true', dest='wps_no_pixie',
-                         help=self._verbose('{O}Never{W} use {O}WPS Pixie-Dust{W} attack (use {G}PIN attack{W})'))
-
-        wps.add_argument('--no-nullpin', action='store_true', dest='wps_no_nullpin',
-                         help=self._verbose('{O}Never{W} use {O}NULL PIN{W} attack (use {G}NULL PIN attack{W})'))
-
-        wps.add_argument('--bully',
-                         action='store_true',
-                         dest='use_bully',
-                         help=Color.s('Use {G}bully{W} program for WPS PIN & Pixie-Dust attacks '
-                                      '(default: {G}reaver{W})'))
         # Alias
         wps.add_argument('-bully', help=argparse.SUPPRESS, action='store_true', dest='use_bully')
 
-        wps.add_argument('--reaver',
-                         action='store_true',
-                         dest='use_reaver',
-                         help=Color.s('Use {G}reaver{W} program for WPS PIN & Pixie-Dust attacks'
-                                      ' (default: {G}reaver{W})'))
         # Alias
         wps.add_argument('-reaver', help=argparse.SUPPRESS, action='store_true', dest='use_reaver')
 
-        # Ignore lock-outs
-        wps.add_argument('--ignore-locks', action='store_true', dest='wps_ignore_lock',
-                         help=Color.s('Do {O}not{W} stop WPS PIN attack if AP becomes {O}locked{W} '
-                                      '(default: {G}stop{W})'))
-
-        # Time limit on entire attack.
-        wps.add_argument('--wps-time',
-                         action='store',
-                         dest='wps_pixie_timeout',
-                         metavar='[sec]',
-                         type=int,
-                         help=self._verbose('Total time to wait before failing PixieDust attack (default: {G}%d sec{W})'
-                                            % self.config.wps_pixie_timeout))
         # Alias
         wps.add_argument('-wpst', help=argparse.SUPPRESS, action='store', dest='wps_pixie_timeout', type=int)
 
@@ -447,12 +283,6 @@ class Arguments(object):
         # Alias
         wps.add_argument('-wpsto', help=argparse.SUPPRESS, action='store', dest='wps_timeout_threshold', type=int)
 
-    def _add_pmkid_args(self, pmkid):
-        pmkid.add_argument('--pmkid',
-                           action='store_true',
-                           dest='use_pmkid_only',
-                           help=Color.s('{O}Only{W} use {C}PMKID capture{W}, avoids other WPS & '
-                                        'WPA attacks (default: {G}off{W})'))
         pmkid.add_argument('--no-pmkid',
                            action='store_true',
                            dest='dont_use_pmkid',
@@ -500,7 +330,6 @@ class Arguments(object):
                               action='store_true',
                               dest='crack_handshake',
                               help=Color.s('Show commands to crack a captured handshake'))
-
 
 if __name__ == '__main__':
     from .config import Configuration
